@@ -29,7 +29,7 @@ public:
         int *subArray = new int[size];
         subArray = array;
         size++;
-        *array = new int[size];
+        array = new int[size];
         array = subArray;
         delete [] subArray;
     };
@@ -38,7 +38,7 @@ public:
         int *subArray = new int[size];
         subArray = array;
         size--;
-        *array = new int[size];
+        array = new int[size];
         for(int i = 0; i<size;i++)
             array[i]=subArray[i+1];
         delete [] subArray;
@@ -56,7 +56,7 @@ public:
         int *subArray = new int[size];
         subArray = array;
         size++;
-        *array = new int[size];
+        array = new int[size];
         array[pos] = val;
         for(int i = 0; i<pos;i++)
             array[i]=subArray[i];
@@ -68,7 +68,7 @@ public:
         int *subArray = new int[size];
         subArray = array;
         size--;
-        *array = new int[size];
+        array = new int[size];
         for(int i = 0; i<pos;i++)
             array[i]=subArray[i];
         for(int i = ++pos;i<size;i++)
