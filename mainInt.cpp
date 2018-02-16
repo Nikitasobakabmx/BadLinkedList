@@ -6,8 +6,18 @@ private:
 public:
     arrayList();
 
+    void addElement(int val){
+        size++;
+        int *subArray = new int[size];
+        for(int i = 0;i<size-1;i++)
+            subArray[i]=array[i];
+        subArray[size-1] = val;
+        array = new int[size];
+        array = subArray; 
+    }
+
     int size_tget_size() const{
-        return size;
+        return size-1;
     };
 
     bool is_empty() const{
@@ -75,6 +85,10 @@ public:
             array[i] = subArray[i+1];
         delete [] subArray;
     };
+    void erase(){
+        for(int i = 0;i < size; i++)
+            array[i]=NULL;
+    }
 
     ~arrayList(){
         delete [] array;
@@ -82,5 +96,16 @@ public:
 };
 int main(){
     
+    arrayList list;
+    for(int i = 0;i<15;i++)
+        list.addElement(i);
+    // for(int i = 0;i<list.size_tget_size();i++)
+    //     std::cout<<list[i]<<std::endl;
+    // list.push_front(11);
+    // std::cout<<std::endl<<list.get_front()<<std::endl;
+    // list.pop_front();
+    // std::cout<<list.is_empty()<<std::end;
+    // list.erase();
+    // std::cout<<list.is_empty();
     return 0;
 }
