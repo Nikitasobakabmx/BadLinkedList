@@ -17,7 +17,9 @@ public:
     }
 
     int getElement(int pos){
-        return array[--pos];
+        if(pos!<=0)
+            return array[--pos];
+        return NULL;
     }
 
     int getSize(){
