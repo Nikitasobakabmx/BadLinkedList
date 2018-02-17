@@ -17,10 +17,12 @@ public:
             array = new T[++size];
             array = subArray;
             array[size-1] = val;
+            delete [] subArray;
         }else{
             array = new T[++size];
             array[0] = val;
         }
+        
     }
 
     T getElement(T pos){
@@ -48,6 +50,7 @@ public:
             for(int i =1; i<size;i++)
                 array[i] = subArray[i-1];
             array[0] = val;
+            delete [] subArray;
     }
 
     void popFront(){
@@ -56,11 +59,26 @@ public:
                 subArray[i-1]=array[i];
             array = new T[size];
             array = subArray;
+            delete [] subArray;
     }
     
     T& get_front(){
         return array[0];
-    };
+    }
+
+    // void insert(int pos, T val){
+    //     T *subArray = new T[size];
+    //     subArray = array;
+    //     size++;
+    //     *array = new T[size];
+    //     array[pos] = val;
+    //     for(int i = 0; i<pos;i++)
+    //         array[i]=subArray[i];
+    //     for(int i = ++pos;i<size;i++)
+    //         array[i] = subArray[i-1];
+    //     delete [] subArray;
+    // }
+
     ~ArrayList(){
         delete [] array;
     }
