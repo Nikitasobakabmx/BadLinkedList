@@ -1,30 +1,23 @@
 #include <iostream>
 class ArrayList{
 private:
-    int size = 0;
+    int size = 1;
     int *array;
 public:
     ArrayList(){
         array = new int[1];
+        array[0] = 10;
     }
     void addElement(int val){
-        if(size!=0){
-			size++;
-			int *subArray = new int[size];
-            for(int i = 0; i < size-1; i++)
-                subArray[i] = array[i];
-            subArray[size-1] = val;
-            array = new int[size];
-            for(int i = 0;i<size;i++)
-                array[i] = subArray[i];
-            delete [] subArray;
-        }else
-            array[0] = val;
-    
+        int *subArray = new int[size];
+        subArray = array;
+        array = new int[++size];
+        array = subArray;
+        array[size-1] = val;
     }
 
     int getElement(int pos){
-        return array[pos];
+        return array[--pos];
     }
 
     int getSize(){
@@ -47,10 +40,8 @@ public:
 
 int main(){
     ArrayList list;
-    list.addElement(10);
+    std::cout<<list.getElement(1)<<std::endl;
     list.addElement(11);
-    list.addElement(12);
-    for(int i =0; i<list.getSize();i++)
-        std::cout<<list.getElement(i)<<std::endl;
+    std::cout<<list.getElement(2);
     return 0;
 }
