@@ -49,7 +49,7 @@ public:
     /*
         This function return size of array
     */
-    int getSize(){
+    int getSize() const{
         return size;
     }
     /*
@@ -91,13 +91,31 @@ public:
             delete [] subArray;
     }
     /*
-        This function check is the size more linger then 0
+        This is two function check is the size more linger then 0
         and return first value or NULL
+        one if this is const
     */
     T get_front(){
         if(size!=0)
             return array[0];
         return NULL;
+    }
+    const T get_front() const{
+        if(size!=0)
+            return array[0];
+        return NULL;
+    }
+    /*
+        This two function of operators
+        who return value on gizen position 
+        one of this is const
+        position begin with 1
+    */
+    int operator[](int pos){
+        return array[--pos];
+    }
+    const int operator[](int pos) const{
+        return array[--pos];
     }
     /*
         This function create new auxiliary array and put this->array to it
@@ -135,26 +153,15 @@ public:
 };
 
 int main(){
-    ArrayList<int> list(10);
-    std::cout<<list.getElement(1)<<std::endl;
-    list.addElement(11);
-    std::cout<<list.getElement(2)<<std::endl;
-    std::cout<<list.is_empty()<<std::endl;
-    std::cout<<list.getSize()<<std::endl;
-    list.pushFront(3);
-    std::cout<<list.getElement(1)<<std::endl;
-    std::cout<<list.getElement(2)<<std::endl;
-    std::cout<<list.getElement(3)<<std::endl;
+    int i = 19;
+    ArrayList<int> list(i);
+    std::cout<<list.get_front()<<std::endl;
     list.popFront();
-    std::cout<<list.getElement(1)<<std::endl;
-    std::cout<<list.getElement(2)<<std::endl;
-    std::cout<<list.get_front();
-    list.insert(2,45);
-    std::cout<<list.getElement(2)<<std::endl;
-    std::cout<<list.getElement(3)<<std::endl;
-    list.erase(3);
-    std::cout<<list.getElement(1)<<std::endl;
-    std::cout<<list.getElement(2)<<std::endl;
-    std::cout<<list.getElement(3)<<std::endl;
+    list.addElement(i);//eto rabotaet
+    //eto nihua ne rabotaet
+    for(int i = 1;i<10;i++)
+        list.addElement(i);
+    //end
+    
     return 0;
 }
