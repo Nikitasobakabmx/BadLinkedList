@@ -13,8 +13,7 @@ public:
     /*
         Constructor with add first value
     */
-    ArrayList(T val)
-
+    ArrayList(T val){
         array = new T[++size];//definition of array
         array[0]= val;//set first value
     }
@@ -95,7 +94,7 @@ public:
         This function check is the size more linger then 0
         and return first value or NULL
     */
-    T& get_front(){
+    T get_front(){
         if(size!=0)
             return array[0];
         return NULL;
@@ -106,13 +105,26 @@ public:
     */
     void insert(int pos, T val){
         T *subArray = new T[size];//inalization auxiliary array
-        subArray = array;//input auxiliary array to this->array
-        *array = new T[++size];// make this->array longer
+        subArray = array;//input this->array to auxiliary
+        array = new T[++size];// make this->array longer
         array[pos] = val;//set value in point position
         for(int i = 0; i<pos;i++)//set value up to point position
             array[i]=subArray[i];
         for(int i = ++pos;i<size;i++)//set value after point position
             array[i] = subArray[i-1];
+        delete [] subArray;
+    }
+    /*
+        This function erase value on point position in this->array
+    */
+    void erase(int pos){
+        T *subArray = new T[size];//inalization auxiliary array
+        subArray = array;//input this->array to auxiliary array
+        array = new T[--size];//make this->array sorter
+        for(int i = 0; i<pos;i++)//set value up to point position
+            array[i]=subArray[i];
+        for(int i = ++pos;i<size;i++)//set value after point position
+            array[i] = subArray[i+1];
         delete [] subArray;
     }
 
@@ -137,5 +149,12 @@ int main(){
     std::cout<<list.getElement(1)<<std::endl;
     std::cout<<list.getElement(2)<<std::endl;
     std::cout<<list.get_front();
+    list.insert(2,45);
+    std::cout<<list.getElement(2)<<std::endl;
+    std::cout<<list.getElement(3)<<std::endl;
+    list.erase(3);
+    std::cout<<list.getElement(1)<<std::endl;
+    std::cout<<list.getElement(2)<<std::endl;
+    std::cout<<list.getElement(3)<<std::endl;
     return 0;
 }
