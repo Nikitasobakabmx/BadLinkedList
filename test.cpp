@@ -13,9 +13,10 @@ struct ElementStruct{
 };
 ElementStruct* entrance;
 ElementStruct* thisElement;//main element, this we cant fogot
-int size = 0;//size of all list
-int position = 0;
+
 public:
+int size = -1;//size of all list
+int position = -1;
 /*
     default constructor
 */
@@ -33,19 +34,40 @@ ArrayList(T value){
     create auxiliary element, give him pointers and put to actualy element
 */
 void AddElement(T value){
-    if(size == 0){
+    while(position != size){
+        ElementStruct* temp = thisElement->next;
+        thisElement = temp;
+    }
+    if(size == -1){
         thisElement = new ElementStruct;
-        entrance = thisElement;
         thisElement->value = value;
+        entrance = thisElement;
+        
     }else{
         ElementStruct* temp = new ElementStruct;
         temp->value = value;
         thisElement->next = temp;
-        thisElement = temp;
-        delete temp;
-        size++;position++;
+        thisElement = temp;       
     }
-    // inc(size,position)
+    size++;position++;
+}
+T GetElement(int pos){
+    if(pos > size)
+        return NULL;
+    if (pos == position)
+        return thisElement->value;
+    if(pos < position){
+        position = 0;
+        thisElement = entrance;
+        
+    }
+    while(position<pos){
+        ElementStruct* temp = thisElement->next;
+        thisElement = temp;
+        position++;
+        
+    }
+    return thisElement->value;
 }
 
 int GetSize(){
@@ -53,7 +75,6 @@ int GetSize(){
 }
 ~ArrayList(){
     thisElement = entrance;
-    delete entrance;
     while(thisElement != nullptr){
         ElementStruct* temp = thisElement->next;
         delete thisElement;
@@ -63,13 +84,10 @@ int GetSize(){
 };
 
 int main(){
-    ArrayList<int> list(12);
+    ArrayList<int> list(11);    
     list.AddElement(15);
-    //std::cout<<list.GetElement(1);
     list.AddElement(14);
-    //std::cout<<list.GetElement(2);
-    //std::cout<<list.GetElement(0);
-    // for(int i = list.GetSize(); i >= 0; i--)
-    //     std::cout<<list.GetElement(i);
+    for(int i = list.GetSize(); i >= 0; i--)
+        std::cout<<list.GetElement(i)<<std::endl;
     return 0;
 }
