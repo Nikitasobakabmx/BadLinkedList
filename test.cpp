@@ -1,4 +1,5 @@
 #include <iostream>
+//#define inc(value1,value2) (value1++;value2++;)
 template<typename T>
 class ArrayList{
 private:
@@ -10,15 +11,17 @@ struct ElementStruct{
     T value;
     ElementStruct* next = nullptr;
 };
-ElementStruct* thisElement;//dinamic element, have actual element
-ElementStruct* headElement;//main element, this we cant fogot
+ElementStruct* entrance;
+ElementStruct* thisElement;//main element, this we cant fogot
 int size = 0;//size of all list
 int position = 0;
 public:
 /*
     default constructor
 */
-ArrayList(){}
+ArrayList(){
+    thisElement = entrance = nullptr;
+}
 /*  
     constructor who create first element
     also ctreate identical actual element
@@ -30,66 +33,43 @@ ArrayList(T value){
     create auxiliary element, give him pointers and put to actualy element
 */
 void AddElement(T value){
-    if(size!=0){
+    if(size == 0){
+        thisElement = new ElementStruct;
+        entrance = thisElement;
+        thisElement->value = value;
+    }else{
         ElementStruct* temp = new ElementStruct;
         temp->value = value;
         thisElement->next = temp;
         thisElement = temp;
         delete temp;
-    }else{
-        headElement = new ElementStruct;//inalization of main element
-        headElement->value = value;//give value
-        thisElement = headElement;//copy to actualy element
-        headElement->next = thisElement;
+        size++;position++;
     }
-    size++;
-    position++;
+    // inc(size,position)
 }
-/*
-    This function return element on pount position
-    if poin position isn't in list return nullptr
-*/
-T GetElement(int position){
-    if(position > size)
-        return NULL;
-    if(position == this->position)
-        return thisElement->value;
-    else{
-        ElementStruct* temp; 
-        if(position < this->position){
-            this->position = 0;
-            thisElement = headElement;
-        }
-        do{
-            temp = thisElement->next;
-            delete thisElement;
-            thisElement = temp;
-            this->position++;
-        }while(this->position!=position);
-        delete temp;
-        return thisElement->value;
-    }
-}
+
 int GetSize(){
     return size;
 }
 ~ArrayList(){
-    ElementStruct* temp;
-    while(headElement!=nullptr){
-        temp = headElement->next;
-        delete headElement;
-        headElement = temp;
+    thisElement = entrance;
+    delete entrance;
+    while(thisElement != nullptr){
+        ElementStruct* temp = thisElement->next;
+        delete thisElement;
+        thisElement = temp;
     }
-    delete temp;
-    delete thisElement;
 }
 };
 
 int main(){
     ArrayList<int> list(12);
     list.AddElement(15);
+    //std::cout<<list.GetElement(1);
     list.AddElement(14);
-    for(int i = list.GetSize(); i >= 0; i--)
-        std::cout<<list.GetElement(i);
+    //std::cout<<list.GetElement(2);
+    //std::cout<<list.GetElement(0);
+    // for(int i = list.GetSize(); i >= 0; i--)
+    //     std::cout<<list.GetElement(i);
     return 0;
 }
