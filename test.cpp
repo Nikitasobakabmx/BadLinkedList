@@ -73,14 +73,14 @@ T GetElement(int pos){
 int GetSize() const{
     return size;
 }
-void PushFront(T value){
+void PushFront(T value){//this doesnt work
     ElementStruct* temp = new ElementStruct;
     temp->value = value;
     temp->next = entrance;
     entrance = temp;
     size++;
 }
-void PopFront(){
+void PopFront(){//this doesnt work
     ElementStruct* temp = entrance->next;
     delete entrance;
     entrance = temp;
@@ -130,23 +130,31 @@ bool IsEmpty()const{
     return false;
 }
 
-void Insert(T value, int pos){//??
-    if (pos != position+1){
-        position = -1;
-        thisElement = entrance;
-           
-        while(position+1 != pos){
-            ElementStruct* temp = thisElement->next;
-            thisElement = temp;
-            position++;
-        }
+void Insert(T value, int pos){//this doesnt work
+    if(pos == 0){
+        PushFront(value);
+    }else{
+        //if (pos != position+1){
+            position = 0;
+            thisElement = entrance;
+
+            while(position+1 != pos){
+                ElementStruct* temp = thisElement->next;
+                thisElement = temp;
+                position++;
+            }
+        //}
+        ElementStruct* temp = new ElementStruct;
+        temp->value = value;
+        temp->next = thisElement->next;
+        thisElement->next = temp;
+        thisElement = temp;
+        position++;size++;
     }
-    ElementStruct* temp = new ElementStruct;
-    temp->value = value;
-    temp->next = thisElement->next;
-    thisElement->next = temp;
-    thisElement = temp;
-    position++;size++;
+}
+
+void Erese(int pos){
+
 }
 ~ArrayList(){
     thisElement = entrance;
@@ -159,9 +167,10 @@ void Insert(T value, int pos){//??
 };
 
 int main(){
-    ArrayList<int> list(11);    
+    ArrayList<int> list(11);
+    list.PopFront();
     list.AddElement(15);
-    list.Insert(1,4);
+    
     list.AddElement(14);
     
     list.GetFront() = 13;
