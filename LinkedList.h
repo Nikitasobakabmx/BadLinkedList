@@ -1,5 +1,6 @@
 #pragma once
-#include "stdafx.h"
+#include <iostream>
+#include <stdexcept>
 template<typename T>
 class LinkedList {
 private:
@@ -161,7 +162,7 @@ void LinkedList<T>::Insert(int pos, T value) {
 }
 
 template<typename T>
-void LinkedList<T>::Erase(int pos){
+void LinkedList<T>::Erase(int pos) {
 	if (pos == 0)
 		PopFront();
 	if (pos  > size)
