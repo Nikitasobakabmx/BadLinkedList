@@ -11,15 +11,20 @@ private:
 	ElementStruct* mainElement;//start element
 	int size = -1;
 public:
+
 	/*
 	this constructor make list with first value
 	*/
 	LinkedList(T value);
+	/*
+	Constructor coping-movement
+	*/
+	LinkedList(const LinkedList& obj);
 	LinkedList();//default constructor
 				 /*
 				 GetSize return size of all list, starting with 0
 				 */
-	int GetSize();
+	const int GetSize() const;
 	/*
 	IsEmpty, check size and return true if size < 0, and false else
 	*/
@@ -70,10 +75,25 @@ inline LinkedList<T>::LinkedList(T value)
 }
 
 template<typename T>
+inline LinkedList<T>::LinkedList(const LinkedList& obj) {
+	mainElement = new ElementStruct;
+	size = -1;
+	/*for (int i = 0; i < (int)obj.GetSize(); i++) {
+	try {
+	GetElement(i) = obj.GetElement(i);
+	}
+	catch (std::out_of_range) {
+
+	}
+	}*/
+
+}
+
+template<typename T>
 LinkedList<T>::LinkedList() :mainElement(nullptr) {}
 
 template<typename T>
-int LinkedList<T>::GetSize() { return size + 1; }
+const int LinkedList<T>::GetSize() const { return size + 1; }
 
 template<typename T>
 bool LinkedList<T>::IsEmpty() {
@@ -85,7 +105,7 @@ bool LinkedList<T>::IsEmpty() {
 template<typename T>
 T& LinkedList<T>::GetElement(int pos) {
 	if (pos > size + 1)
-		throw std::out_of_range("Blaaaa");
+		throw std::out_of_range("Your value out of range");
 	ElementStruct* temp = mainElement;
 	for (int i = 0; i < pos; i++) {
 		if ((pos == (size + 1)) && (i == size)) {
