@@ -11,7 +11,6 @@ private:
 	ElementStruct* mainElement;//start element
 	int size = -1;
 public:
-
 	/*
 	this constructor make list with first value
 	*/
@@ -29,10 +28,13 @@ public:
 	IsEmpty, check size and return true if size < 0, and false else
 	*/
 	bool IsEmpty();
+
+	void AddElement(T value);
 	/*
 	GetElement return value on point position
 	*/
 	T& GetElement(int pos);
+	const T GetElement(int pos) const;
 	/*
 	With [i], i is int, you can obj[i]=x, x is your value
 	*/
@@ -77,15 +79,16 @@ inline LinkedList<T>::LinkedList(T value)
 template<typename T>
 inline LinkedList<T>::LinkedList(const LinkedList& obj) {
 	mainElement = new ElementStruct;
-	size = -1;
-	/*for (int i = 0; i < (int)obj.GetSize(); i++) {
-	try {
-	GetElement(i) = obj.GetElement(i);
+	mainElement->value = obj.GetElement(0);
+	size = 0;
+	for (int i = 0; i < obj.GetSize(); i++) {
+		try {
+			AddElement(obj.GetElement(i));
+		}
+		catch (std::out_of_range) {
+			std::cout << "Please, chake range" << std::endl;
+		}
 	}
-	catch (std::out_of_range) {
-
-	}
-	}*/
 
 }
 
@@ -101,7 +104,23 @@ bool LinkedList<T>::IsEmpty() {
 		return true;
 	return false;
 }
-
+template<typename T>
+void LinkedList<T>::AddElement(T value) {
+	if (size == -1) {
+		mainElement = new ElementStruct;
+		size++;
+		mainElement->value = value;
+		return;
+	}
+	ElementStruct* temp = mainElement;
+	while (temp != nullptr) {
+		temp = temp->next;
+	}
+	temp = new ElementStruct;
+	temp->value = value;
+	temp->next = nullptr;
+	size++;
+}
 template<typename T>
 T& LinkedList<T>::GetElement(int pos) {
 	if (pos > size + 1)
@@ -114,6 +133,18 @@ T& LinkedList<T>::GetElement(int pos) {
 			size++;
 			break;
 		}
+		if (temp == nullptr)
+			throw std::invalid_argument("bla");
+		temp = temp->next;
+	}
+	return temp->value;
+}
+template<typename T>
+const T LinkedList<T>::GetElement(int pos) const {
+	if (pos > size)
+		throw std::out_of_range("Your value out of range");
+	ElementStruct* temp = mainElement;
+	for (int i = 0; i < pos; i++) {
 		temp = temp->next;
 	}
 	return temp->value;
@@ -126,7 +157,13 @@ T& LinkedList<T>::operator[](int pos) {
 
 template<typename T>
 const T& LinkedList<T>::operator[](int pos) const {
-	return GetElement(pos);
+	if (pos > size)
+		throw std::out_of_range("Your value out of range");
+	ElementStruct* temp = mainElement;
+	for (int i = 0; i < pos; i++) {
+		temp = temp->next;
+	}
+	return temp->value;
 }
 
 
